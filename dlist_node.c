@@ -65,7 +65,6 @@ void delete_node(dlist_node* n)
 
 
 
-
 // return a pointer to the nth node in the list. If n is
 // the length of the list, this returns NULL, but does not error.
 // Precondition: the list has at least n nodes
@@ -135,5 +134,3 @@ int length(dlist_node* head)
     ;
   return len;
 }
-
-#endif

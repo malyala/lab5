@@ -94,21 +94,71 @@ int dlist_peek_end(dlist l)
 // adds a new element into the dlist, after n existing elements.
 // Traverses from whichever side of the dlist is closer.
 // precondition: the list has at least n elements
-void dlist_insert(dlist l, int n, int elt);
+void dlist_insert(dlist l, int n, int elt)
+{
+  int len = dlist_size(l->head);
+  if(n == 0)
+  {
+    llist_push(l, elt);
+  }
+  else if (len/2 < n )
+  {
+    dlist_node* one_before = nth_node(l->head, n-1);
+    insert_after(one_before, elt);
+    l->size++;
+  }
+  else {
+    dlist_node* one_before = nth_node_prev(l->tail, n-1);
+    insert_after(one_before, elt);
+    l->size++;
+  }
+}
 
 // retrieves the nth element of the dlist.
 // Traverses from whichever side of the dlist is closer.
 // precondition: the list has at least (n+1) elements
 int dlist_get(dlist l, int n)
 {
-
+  int len = dlist_size(l->head);
+  if(n == 0)
+  {
+    dlist_peak(l);
+  }
+  else if (len/2 < n )
+  {
+    return nth_node(l->head, n)->data;
+  }
+  else {
+    return nth_node_prev(l->tail, n)->data;
+  }
 }
 
 // sets the nth element of the dlist to a new value.
 // Traverses from whichever side of the dlist is closer.
 // precondition: the list has at least (n+1) elements
 // postcondition: returns the old value of the element that was set
-int dlist_set(dlist l, int n, int new_elt);
+int dlist_set(dlist l, int n, int new_elt)
+{
+  int len = dlist_size(l->head);
+  if(n == 0)
+  {
+    dlist_pop(l);
+    dlist_push(l, new_elt);
+  }
+  else if (len/2 < n )
+  {
+    llist_node* node = nth_node(l->head, n);
+    int old_elt = node->data;
+    node->data = new_elt;
+    return old_elt;
+  }
+  else {
+    llist_node* node = nth_node_prev(l->tail, n);
+    int old_elt = node->data;
+    node->data = new_elt;
+    return old_elt;
+  }
+}
 
 // removes the nth element of the dlist.
 // Traverses from whichever side of the dlist is closer.
@@ -116,7 +166,28 @@ int dlist_set(dlist l, int n, int new_elt);
 // postcondition: returns the removed element
 int dlist_remove(dlist l, int n)
 {
+  int len = dlist_size(l->head);
+  if(n == 0)
+  {
+    dlist_pop(l);
+  }
+  else if (len/2 < n )
+  {
+    llist_node* one_before = nth_node(l->head, n);
+    int elt = one_before->next->data;
+    delete_after(one_before);
+    l->size--;
+    return elt;
 
+  }
+  else {
+    llist_node* one_before = nth_node_prev(l->tail, n);
+    int elt = one_before->next->data;
+    delete_after(one_before);
+    l->size--;
+    return elt;
+
+  }
 }
 
 // frees an dlist. Takes O(size(l)) steps.
