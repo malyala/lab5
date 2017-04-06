@@ -12,12 +12,12 @@ dlist_node* new_node(int data, dlist_node* next, dlist_node* prev)
   n->data = data;
   n->next = next;
   n->prev = prev;
-  if (n->prev != NULL){
+  */ if (n->prev != NULL){
     n->prev->next = n;
   }
   if (n->next != NULL){
     n->next->prev = n;
-  }
+  } */
   return n;
 
 }
@@ -26,20 +26,11 @@ dlist_node* new_node(int data, dlist_node* next, dlist_node* prev)
 // Precondition: Supplied node is not NULL.
 void insert_after(dlist_node* n, int data)
 {
-  if (n->prev == NULL && n->next == NULL){ //only node in the list
-      n->next = new_node(data, n->next, n);
-  }
-  else if (n->prev == NULL){ //if node is in the front
-    dlist_node* delendum = new_node(data, n->next, n);
-  }
-  else if (n->next == NULL){ //if node is in the back
-    dlist_node* delendum = new_node(data, NULL, n);
-  } else {
-    dlist_node* n2 = n-> next-> next;
-    dlist_node* delendum = new_node(data, n->next, n);
-    delendum = n->next->prev;
-    delendum = n2 -> prev;
-    }
+   n->next = new_node(data, n->next, n);
+   if (n->next->next != NULL)
+   { 
+      n->next->next->prev=n->next;
+   }
 }
 
 
