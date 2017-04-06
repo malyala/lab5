@@ -1,4 +1,4 @@
-/* llist_node.c
+/* dlist_node.c
 
    A doubly-linked list implementation
 */
@@ -30,7 +30,7 @@ void insert_after(dlist_node* n, int data)
 
 // insert a new node before the given one
 // Precondition: Supplied node is not NULL.
-void insert_before(dlist_node* n, int data);
+void insert_before(dlist_node* n, int data)
 {
   n->prev = new_node(data, n, n->prev);
   if (n->prev->prev != NULL) {
@@ -47,16 +47,16 @@ void delete_node(dlist_node* n)
     free(n);
   }
   else if (n->prev == NULL){ //if node is in the front
-    llist_node* delendum = n->next;
+    dlist_node* delendum = n->next;
     delendum->prev = NULL;
     free(delendum->prev);
   }
   else if (n->next == NULL){ //if node is in the back
-    llist_node* delendum = n->prev;
+    dlist_node* delendum = n->prev;
       delendum->next = NULL;
     free(delendum->next);i
   } else if {
-    llist_node* delendum = n->next;
+    dlist_node* delendum = n->next;
     n->next = n->prev->next;
     n->prev = n->next->prev;
     free(delendum);
@@ -68,7 +68,7 @@ void delete_node(dlist_node* n)
 // return a pointer to the nth node in the list. If n is
 // the length of the list, this returns NULL, but does not error.
 // Precondition: the list has at least n nodes
-dlist_node* nth_node(dlist_node* head, int n);
+dlist_node* nth_node(dlist_node* head, int n)
 {
   //iterates through in order to return the pointer to the given head
   for( ; n > 0; n--, head = head->next)
@@ -80,7 +80,7 @@ dlist_node* nth_node(dlist_node* head, int n);
 // this uses `prev` pointers, not `next` pointers.) If n is
 // the length of the list, this returns NULL, but does not error.
 // Precondition: the list has at least n nodes
-dlist_node* nth_node_prev(dlist_node* tail, int n);
+dlist_node* nth_node_prev(dlist_node* tail, int n)
 {
   for( ; n > 0; n--, tail = tail->prev)
   ;
@@ -90,7 +90,7 @@ dlist_node* nth_node_prev(dlist_node* tail, int n);
 // free an entire linked list. The list might be empty.
 void free_dlist(dlist_node* head)
   {
-    llist_node* current = head;
+    dlist_node* current = head;
     while(current)
     {
       head = current;
@@ -102,11 +102,10 @@ void free_dlist(dlist_node* head)
 // Postcondition: returns the head element
 dlist_node* from_array(int n, int a[n])
 {
-  llist_node* result = NULL;
-  llist_node* prevresult != NULL;
+  dlist_node* result = NULL;
   for(int i = n-1; i >= 0; i--)
   {
-    result = new_node(a[i], result, result-> prev);
+    result = new_node(a[i], result, result->prev);
   }
   return result;
 
