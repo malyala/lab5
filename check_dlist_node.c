@@ -75,7 +75,7 @@ START_TEST(test_from_array)
 }
 END_TEST
 
-START_TEST(test_delete_after)
+/*START_TEST(test_delete_after)
 {
   int xs[] = { 1, 4, 8, 3, 5 };
   int len = sizeof(xs)/sizeof(xs[0]);
@@ -90,6 +90,7 @@ START_TEST(test_delete_after)
   free_dlist(n);
 }
 END_TEST
+*/
 
 START_TEST(test_nth_node)
 {
@@ -138,7 +139,7 @@ int main()
   tcase_add_test(tc, test_new_node);
   tcase_add_test(tc, test_insert_after);
   tcase_add_test(tc, test_from_array);
-  tcase_add_test(tc, test_delete_after);
+  // tcase_add_test(tc, test_delete_after);
   tcase_add_test(tc, test_nth_node);
   tcase_add_test(tc, test_to_array);
 

@@ -54,8 +54,8 @@ void delete_node(dlist_node* n)
   else if (n->next == NULL){ //if node is in the back
     dlist_node* delendum = n->prev;
       delendum->next = NULL;
-    free(delendum->next);i
-  } else if {
+      free(delendum->next);
+  } else {
     dlist_node* delendum = n->next;
     n->next = n->prev->next;
     n->prev = n->next->prev;

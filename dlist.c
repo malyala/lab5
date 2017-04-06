@@ -9,10 +9,10 @@
 #include "dlist_node.h"
 
 // An abstract type for sequences
-typedef struct dlist_record* dlist
+typedef struct dlist_record
 {
   dlist_node* head;
-  dlist_node* tail
+  dlist_node* tail;
   int size;
 } dlist_record;
 
@@ -21,7 +21,7 @@ typedef struct dlist_record* dlist
 // with it.
 dlist dlist_new()
   {
-  dlist_record l = malloc(sizeof(dlist_record));
+  dlist l = malloc(sizeof(dlist_record));
   l->head = NULL;
   l->tail = NULL;
   l->size = 0;
@@ -30,7 +30,7 @@ dlist dlist_new()
 }
 
 // returns the number of elements in the dlist. Runs in constant time.
-int dlist_size(dlist* l)
+int dlist_size(dlist l)
 {
   return l->size;
 }
@@ -46,7 +46,7 @@ void dlist_push(dlist l, int elt)
 // precondition: there is at least one element in the dlist.
 int dlist_pop(dlist l)
 {
-  llist_node* old_head = l->head;
+  dlist_node* old_head = l->head;
   int val = old_head->data;
   l->head = old_head->next;
   l->size--;
@@ -74,7 +74,7 @@ void dlist_push_end(dlist l, int elt)
 // precondition: there is at least one element in the dlist.
 int dlist_pop_end(dlist l)
 {
-  llist_node* old_head = l->tail;
+  dlist_node* old_head = l->tail;
   int val = old_head->data;
   l->tail = old_head->prev;
   l->size--;
@@ -96,10 +96,10 @@ int dlist_peek_end(dlist l)
 // precondition: the list has at least n elements
 void dlist_insert(dlist l, int n, int elt)
 {
-  int len = dlist_size(l->head);
+  int len = dlist_size(l);
   if(n == 0)
   {
-    llist_push(l, elt);
+    dlist_push(l, elt);
   }
   else if (len/2 < n )
   {
@@ -119,10 +119,10 @@ void dlist_insert(dlist l, int n, int elt)
 // precondition: the list has at least (n+1) elements
 int dlist_get(dlist l, int n)
 {
-  int len = dlist_size(l->head);
+  int len = dlist_size(l);
   if(n == 0)
   {
-    dlist_peak(l);
+    dlist_peek(l);
   }
   else if (len/2 < n )
   {
@@ -139,7 +139,7 @@ int dlist_get(dlist l, int n)
 // postcondition: returns the old value of the element that was set
 int dlist_set(dlist l, int n, int new_elt)
 {
-  int len = dlist_size(l->head);
+  int len = dlist_size(l);
   if(n == 0)
   {
     dlist_pop(l);
@@ -147,13 +147,13 @@ int dlist_set(dlist l, int n, int new_elt)
   }
   else if (len/2 < n )
   {
-    llist_node* node = nth_node(l->head, n);
+    dlist_node* node = nth_node(l->head, n);
     int old_elt = node->data;
     node->data = new_elt;
     return old_elt;
   }
   else {
-    llist_node* node = nth_node_prev(l->tail, n);
+    dlist_node* node = nth_node_prev(l->tail, n);
     int old_elt = node->data;
     node->data = new_elt;
     return old_elt;
@@ -166,26 +166,26 @@ int dlist_set(dlist l, int n, int new_elt)
 // postcondition: returns the removed element
 int dlist_remove(dlist l, int n)
 {
-  int len = dlist_size(l->head);
+  int len = dlist_size(l);
   if(n == 0)
   {
     dlist_pop(l);
   }
   else if (len/2 < n )
   {
-    llist_node* one_before = nth_node(l->head, n);
-    int elt = one_before->next->data;
-    delete_after(one_before);
+    dlist_node* self = nth_node(l->head, n);
+    int before = self->next->data;
+    delete_node(self);
     l->size--;
-    return elt;
+    return before;
 
   }
   else {
-    llist_node* one_before = nth_node_prev(l->tail, n);
-    int elt = one_before->next->data;
-    delete_after(one_before);
+    dlist_node* self = nth_node_prev(l->head, n);
+    int before = self->next->data;
+    delete_node(self);
     l->size--;
-    return elt;
+    return before;
 
   }
 }
