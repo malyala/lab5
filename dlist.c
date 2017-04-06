@@ -38,7 +38,7 @@ int dlist_size(dlist* l)
 // appends a new element to the beginning of the dlist. Runs in constant time.
 void dlist_push(dlist l, int elt)
 {
-  l->head = new_node(elt, l->head, !!!!!!!);
+  l->head = new_node(elt, l->head, l->tail);
   l->size++;
 }
 
@@ -66,7 +66,7 @@ int dlist_peek(dlist l)
 // appends a new element to the end of the dlist. Runs in constant time.
 void dlist_push_end(dlist l, int elt)
 {
-  l->tail = new_node(elt, !!!!!, l->tail);
+  l->tail = new_node(elt, l->head, l->tail);
   l->size++;
 }
 

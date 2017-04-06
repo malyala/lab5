@@ -1,4 +1,4 @@
-# Makefile for llist
+# Makefile for dlist
 
 all: check_dlist_node check_dlist
 
