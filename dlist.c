@@ -38,7 +38,7 @@ int dlist_size(dlist l)
 // appends a new element to the beginning of the dlist. Runs in constant time.
 void dlist_push(dlist l, int elt)
 {
-  l->head = new_node(elt, l->head, l->tail);
+  l->head = new_node(elt, l->head, NULL);
   l->size++;
 }
 

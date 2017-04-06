@@ -4,7 +4,6 @@
 */
 
 #include <stdlib.h>
-
 #include "dlist_node.h"
 // create (i.e., malloc) a new node
 dlist_node* new_node(int data, dlist_node* next, dlist_node* prev)
@@ -13,6 +12,12 @@ dlist_node* new_node(int data, dlist_node* next, dlist_node* prev)
   n->data = data;
   n->next = next;
   n->prev = prev;
+  if (n->prev != NULL){
+    n->prev->next = n;
+  }
+  if (n->next != NULL){
+    n->next->prev = n;
+  }
   return n;
 
 }
@@ -21,21 +26,31 @@ dlist_node* new_node(int data, dlist_node* next, dlist_node* prev)
 // Precondition: Supplied node is not NULL.
 void insert_after(dlist_node* n, int data)
 {
-  n->next = new_node(data, n->next, n);
-  if (n->next->next != NULL) {
-    n->next->next->prev = n->next;
+  if (n->prev == NULL && n->next == NULL){ //only node in the list
+      n->next = new_node(data, n->next, n);
   }
-
+  else if (n->prev == NULL){ //if node is in the front
+    dlist_node* delendum = new_node(data, n->next, n);
+  }
+  else if (n->next == NULL){ //if node is in the back
+    dlist_node* delendum = new_node(data, NULL, n);
+  } else {
+    dlist_node* n2 = n-> next-> next;
+    dlist_node* delendum = new_node(data, n->next, n);
+    delendum = n->next->prev;
+    delendum = n2 -> prev;
+    }
 }
+
 
 // insert a new node before the given one
 // Precondition: Supplied node is not NULL.
 void insert_before(dlist_node* n, int data)
 {
   n->prev = new_node(data, n, n->prev);
-  if (n->prev->prev != NULL) {
+  /*if (n->prev->prev != NULL) {
     n->prev->prev->next = n->prev;
-  }
+    }*/
 }
 
 
@@ -55,7 +70,7 @@ void delete_node(dlist_node* n)
     dlist_node* delendum = n->prev;
       delendum->next = NULL;
       free(delendum->next);
-  } else {
+  } else { //if node is in the middle
     dlist_node* delendum = n->next;
     n->next = n->prev->next;
     n->prev = n->next->prev;
@@ -105,7 +120,7 @@ dlist_node* from_array(int n, int a[n])
   dlist_node* result = NULL;
   for(int i = n-1; i >= 0; i--)
   {
-    result = new_node(a[i], result, result->prev);
+    result = new_node(a[i], result, NULL);
   }
   return result;
 

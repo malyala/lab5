@@ -28,12 +28,13 @@ void reverse_array(int n, int a[n])
 START_TEST(test_new_node)
 {
   dlist_node* n = NULL;
-
+  dlist_node* y = NULL;
   int xs[] = { 1, 4, 8, 3, 5 };
+  //n = new_node(xs[0], n->next, NULL);
   int len = sizeof(xs)/sizeof(xs[0]);
   for(int i = 0; i < len; i++)
   {
-    n = new_node(xs[i], n, n->prev);
+    n = new_node(xs[i], n, y);
   }
 
   reverse_array(len, xs);
@@ -49,7 +50,7 @@ START_TEST(test_insert_after)
   int xs[] = { 1, 4, 8, 3, 5 };
   int len = sizeof(xs)/sizeof(xs[0]);
 
-  dlist_node* n = new_node(xs[0], NULL, n->prev);
+  dlist_node* n = new_node(xs[0], NULL, NULL);
   for(int i = len-1; i >= 1; i--)
   {
     insert_after(n, xs[i]);
